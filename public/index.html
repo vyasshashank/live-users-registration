@@ -116,8 +116,9 @@
           };
           $.ajax({
             type: "POST",
-            // url: "https://live-users-room.onrender.com/api/users",
-            url: "http://localhost:4000/api/users",
+            url: `https://live-users-registration.onrender.com/api/users/${email}`,
+
+            // url: "http://localhost:4000/api/users",
 
             data: JSON.stringify(formData),
             contentType: "application/json",
