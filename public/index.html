@@ -114,6 +114,12 @@
             loginId: $('input[name="loginId"]').val(),
             password: $('input[name="password"]').val(),
           };
+          const emailPattern = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
+                if (!emailPattern.test(formData.emailId)) {
+                    alert("Please enter a valid Gmail address (e.g., user@gmail.com).");
+                    return;
+                }
+
           $.ajax({
             type: "POST",
             url: `https://live-users-registration.onrender.com/api/users/${email}`,

@@ -70,20 +70,39 @@ app.post("/api/users", async (req, res) => {
       .send({ message: "Error saving user", errors: errorMessages });
   }
 });
-
 app.get("/api/users/:emailId", async (req, res) => {
   try {
-    const user = await User.findOne({ emailId: req.params.emailId });
+    const emailId = req.params.emailId;
+
+    // Validate that the emailId follows the correct pattern for a Gmail address
+    const emailPattern = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
+    if (!emailPattern.test(emailId)) {
+      return res.status(400).send({ message: "Invalid email address" });
+    }
+
+    const user = await User.findOne({ emailId: emailId });
     if (!user) {
       return res.status(404).send({ message: "User not found" });
     }
+
     res.status(200).send(user);
   } catch (error) {
-    res
-      .status(400)
-      .send({ message: "Error fetching user", error: error.message });
+    res.status(400).send({ message: "Error fetching user", error: error.message });
   }
 });
+// app.get("/api/users/:emailId", async (req, res) => {
+//   try {
+//     const user = await User.findOne({ emailId: req.params.emailId });
+//     if (!user) {
+//       return res.status(404).send({ message: "User not found" });
+//     }
+//     res.status(200).send(user);
+//   } catch (error) {
+//     res
+//       .status(400)
+//       .send({ message: "Error fetching user", error: error.message });
+//   }
+// });
 const PORT = process.env.PORT || 4000;
 server.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
