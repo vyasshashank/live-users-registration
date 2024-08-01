@@ -44,10 +44,10 @@ io.on("connection", (socket) => {
 
 app.post("/api/users/:emailId", async (req, res) => {
   try {
-    const emailId - req.params.emailId;
+    const emailId = req.params.emailId;
 
     req.body.emailId =emailId;
-    
+
     const user = new User(req.body);
     await user.validate();
     await user.save();
